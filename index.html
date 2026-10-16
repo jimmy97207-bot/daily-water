@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f3f8fa">
+  <meta name="description" content="設定自己的每日目標，用簡單的紀錄，看見每一口水的累積。資料保存在你的瀏覽器。">
+  <title>每日喝水紀錄 · 每一口，都算數</title>
+  <style>
+    :root{color-scheme:light;--ink:#183947;--muted:#70858e;--blue:#087eac;--deep:#08658e;--line:#e1ebef;--bg:#f3f8fa;--sans:"Segoe UI","Noto Sans TC","Microsoft JhengHei",sans-serif}
+    *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:15px;line-height:1.6}button,input{font:inherit}button{cursor:pointer}button,a,input{-webkit-tap-highlight-color:transparent}button{transition:background .18s,transform .18s,box-shadow .18s}button:active{transform:translateY(1px)}button:focus-visible,a:focus-visible,input:focus-visible{outline:3px solid #19a6c7;outline-offset:4px}button:disabled{cursor:default;opacity:.5}svg{display:block;flex-shrink:0}button svg{pointer-events:none}button{color:inherit}a{color:var(--deep)}
+    .shell{max-width:1180px;margin:auto;padding:0 42px}.topbar{border-bottom:1px solid var(--line);background:#ffffff9c}.header-inner{min-height:98px;display:flex;align-items:center;justify-content:space-between;gap:20px}.brand{display:flex;gap:13px;align-items:center}.brand-mark{display:grid;place-items:center;width:43px;height:47px;border-radius:15px;background:#e3f4f9;color:var(--blue)}.brand-name{font-weight:750;font-size:19px;letter-spacing:1px}.brand-caption{font-size:10px;letter-spacing:3.1px;color:var(--muted);margin-top:1px}.goal-chip{display:flex;align-items:center;gap:13px;border:1px solid var(--line);border-radius:13px;padding:9px 12px 9px 17px;background:white}.goal-chip-label{font-size:11px;color:var(--muted)}.goal-chip-value{font-size:15px;font-weight:700;font-variant-numeric:tabular-nums}.goal-chip button{border:0;background:#eef6f9;color:var(--deep);border-radius:8px;width:34px;height:34px;display:grid;place-items:center}.goal-chip button:hover{background:#dcedf3}
+    .intro{display:flex;justify-content:space-between;gap:20px;align-items:flex-end;padding:42px 0 28px}.eyebrow{font-size:11px;letter-spacing:3px;font-weight:700;color:var(--blue);margin-bottom:8px}h1{font-size:33px;letter-spacing:1.5px;line-height:1.4;margin:0 0 8px;font-weight:750}.intro p{margin:0;color:var(--muted);font-size:14px}.today-date{display:flex;align-items:center;gap:9px;padding:10px 14px;border:1px solid var(--line);background:#fff9;border-radius:11px;font-size:12px;white-space:nowrap;margin-bottom:2px}
+    .dashboard{display:grid;grid-template-columns:minmax(0, .92fr) minmax(0,1.08fr);gap:24px;align-items:start}.card{border:1px solid var(--line);border-radius:22px;background:white;box-shadow:0 5px 24px #1c607104}.progress-card{position:relative;overflow:hidden;padding:26px 29px 24px;text-align:center}.card-heading{display:flex;align-items:center;justify-content:space-between;gap:10px;text-align:left}.card-heading h2{font-size:16px;font-weight:700;margin:0;display:flex;align-items:center;gap:9px}.section-index{font-size:10px;color:#8ba5b0;letter-spacing:1px;font-weight:500}.status{font-size:11px;color:#657e88;background:#f0f5f7;padding:5px 10px;border-radius:20px}.status.complete{background:#e4f5ed;color:#287557}.cup-scene{height:265px;position:relative;display:flex;justify-content:center;align-items:center;margin:5px 0 0}.cup-scene:before{content:"";width:233px;height:233px;border-radius:50%;background:radial-gradient(circle,#edf9fd 25%,#f4fafc 67%,#fff0 68%);position:absolute}.cup{width:162px;height:215px;border:2px solid #b9d9e5;border-top:3px solid #99bfce;border-radius:8px 8px 36px 36px;position:relative;overflow:hidden;background:linear-gradient(100deg,#fff6,#e2f3f933 60%,#fff9);box-shadow:inset 6px 0 0 #fff9,0 12px 18px -17px #3e9cbc;z-index:1}.cup:after{content:"";position:absolute;top:15px;bottom:28px;left:10px;width:5px;border-radius:10px;background:#fffa;z-index:3}.cup-water{position:absolute;bottom:0;left:0;right:0;height:0;background:linear-gradient(180deg,#75d4ed,#37a9d4);transition:height .7s ease;max-height:100%}.cup-water:before,.cup-water:after{content:"";position:absolute;left:-25%;top:-8px;width:150%;height:19px;border-radius:50%;background:#86dff0;animation:wave 4s ease-in-out infinite}.cup-water:after{top:-5px;background:#61c4e5aa;animation-delay:-2s}.cup-ticks{position:absolute;right:0;top:22px;bottom:22px;display:flex;flex-direction:column;justify-content:space-between;z-index:4}.cup-ticks i{display:block;width:14px;height:1px;background:#578fa04d}.cup-ticks i:nth-child(2n){width:8px;margin-left:6px}.cup-percent{position:absolute;inset:0;z-index:5;display:flex;align-items:center;justify-content:center;flex-direction:column;pointer-events:none}.cup-percent strong{font-size:36px;line-height:1.3;font-weight:650;letter-spacing:-1.5px;color:#1c617e;font-variant-numeric:tabular-nums}.cup-percent span{font-size:11px;letter-spacing:2px;color:#427890}.cup-base{position:absolute;bottom:14px;width:145px;height:12px;border-radius:50%;background:#d4e9f066;filter:blur(4px)}.cup-decor{position:absolute;color:#9dcbdc;font-size:13px;left:calc(50% - 120px);top:60px}.cup-decor.second{left:calc(50% + 103px);top:164px;font-size:20px}.total-label{font-size:12px;color:var(--muted);margin:6px 0 0}.total{display:flex;justify-content:center;align-items:baseline;gap:8px;line-height:1.3;margin:5px 0 19px;overflow-wrap:anywhere}.total strong{font-size:45px;font-weight:650;letter-spacing:-1.7px;font-variant-numeric:tabular-nums;max-width:100%}.total span{color:var(--muted);font-size:15px}.metrics{display:grid;grid-template-columns:1fr 1fr;border-top:1px solid var(--line);padding-top:18px}.metric + .metric{border-left:1px solid var(--line)}.metric-label{color:var(--muted);font-size:11px;margin-bottom:3px}.metric-value{font-size:20px;font-weight:650;font-variant-numeric:tabular-nums;overflow-wrap:anywhere}.metric-value small{font-size:11px;font-weight:400;color:var(--muted);margin-left:4px}.progress-note{font-size:12px;color:#5e8b9a;background:#f1f8fa;border-radius:10px;padding:11px 8px;margin:20px 0 0;min-height:41px}.progress-note.complete{color:#287557;background:#edf8f1}
+    .right-column{display:grid;gap:22px;min-width:0}.add-card{padding:25px 26px}.card-subtitle{color:var(--muted);font-size:12px;margin:7px 0 18px}.quick-buttons{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}.quick{border:1px solid #dbeaf0;background:#f3f9fb;border-radius:13px;padding:14px 6px 12px;display:flex;align-items:center;flex-direction:column;gap:8px;color:#38768e;min-height:105px}.quick:hover{background:#e4f4f9;border-color:#8bcadd;box-shadow:0 3px 12px #4795b114}.quick.featured{border-color:#a5d8e6;background:#eaf7fb}.quick .quick-amount{font-size:18px;font-weight:650;line-height:1.2;color:#275b70;font-variant-numeric:tabular-nums}.quick small{font-size:10px;font-weight:400;color:#7294a2}.custom-label{display:block;font-size:12px;font-weight:600;margin:19px 0 7px}.custom-row{display:flex;gap:9px}.input-wrap{position:relative;flex:1;min-width:0}.input-wrap input{width:100%;height:45px;border:1px solid #d9e6ec;border-radius:10px;padding:10px 45px 10px 13px;background:#fff;color:var(--ink);font-variant-numeric:tabular-nums}.input-wrap input::placeholder{color:#97a8af;font-size:12px}.input-wrap input[aria-invalid="true"]{border-color:#bf5b52}.input-wrap .unit{position:absolute;right:13px;top:12px;font-size:12px;color:var(--muted);pointer-events:none}.primary{border:1px solid var(--blue);background:var(--blue);color:white;min-height:45px;padding:10px 18px;border-radius:10px;font-size:13px;font-weight:600;display:inline-flex;align-items:center;justify-content:center;gap:5px;white-space:nowrap}.primary:hover{background:var(--deep);border-color:var(--deep)}.error{color:#b34940;font-size:12px;margin:5px 0 0;min-height:0}.error:empty{display:none}.setup-hint{font-size:12px;color:#557987;margin:12px 0 0}.text-button{padding:0;border:0;background:none;color:var(--blue);text-decoration:underline;text-underline-offset:3px;font-size:inherit}
+    .records-card{padding:23px 26px 0;overflow:hidden}.count{font-size:11px;border-radius:7px;background:#f1f5f7;padding:3px 8px;color:var(--muted);font-variant-numeric:tabular-nums}.records-list{list-style:none;margin:17px 0 0;padding:0;max-height:272px;overflow-y:auto;scrollbar-width:thin;scrollbar-color:#c8dce5 transparent}.record{display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid #edf2f4;animation:record-in .25s ease}.record:last-child{border-bottom:0}.record-icon{width:34px;height:34px;background:#eff8fb;color:#5fa7bf;border-radius:11px;display:grid;place-items:center}.record-detail{flex:1;min-width:0;text-align:left}.record-amount{font-size:14px;font-weight:650;overflow-wrap:anywhere}.record-amount small{color:var(--muted);font-size:11px;font-weight:400;margin-left:3px}.record time{color:var(--muted);font-size:11px;font-variant-numeric:tabular-nums}.delete-record{border:0;background:transparent;color:#96a8b0;display:grid;place-items:center;width:34px;height:36px;border-radius:8px}.delete-record:hover{color:#b64e46;background:#fff0ef}.empty-state{text-align:center;padding:25px 8px 28px;color:var(--muted)}.empty-icon{display:grid;place-items:center;background:#f3f8fa;border-radius:50%;width:47px;height:47px;margin:0 auto 12px;color:#90b8c7}.empty-state p{font-size:12px;margin:0}.empty-state small{font-size:11px;color:#9aabb2;display:block;margin-top:5px}.record-footer{border-top:1px solid var(--line);display:flex;gap:7px;align-items:center;color:#8599a2;font-size:10px;padding:12px 0;margin-top:8px}.footer{display:flex;justify-content:space-between;gap:24px;padding:26px 0 30px;color:#8b9da5;font-size:11px}.footer p{margin:0}.footer-note{max-width:750px}.footer-sign{white-space:nowrap;font-size:10px;letter-spacing:1.5px;color:#7896a3;padding-top:2px}.storage-banner{margin-top:20px;border:1px solid #e8cc9e;background:#fff8e9;color:#805a28;border-radius:12px;padding:13px 17px;font-size:13px;display:flex;align-items:center;justify-content:space-between;gap:14px}.storage-banner button{background:#fff;border:1px solid #d6b67d;border-radius:8px;font-size:12px;padding:8px 10px;white-space:nowrap}.storage-banner[hidden], [hidden]{display:none!important}
+    dialog{border:1px solid var(--line);padding:30px;border-radius:21px;max-width:420px;width:calc(100% - 36px);color:var(--ink);box-shadow:0 24px 80px #18394725}dialog::backdrop{background:#18394755;backdrop-filter:blur(4px)}.dialog-icon{color:var(--blue);background:#ebf7fb;border-radius:13px;width:46px;height:46px;display:grid;place-items:center;margin-bottom:15px}dialog h2{font-size:22px;line-height:1.4;margin:0 0 10px}dialog p{font-size:13px;color:var(--muted);margin:0 0 20px}dialog label{font-size:13px;font-weight:600;display:block;margin-bottom:7px}.dialog-actions{display:flex;justify-content:flex-end;gap:9px;margin-top:24px}.secondary{border:1px solid var(--line);border-radius:10px;background:white;padding:9px 17px;font-size:13px}.secondary:hover{background:#f4f8fa}.dialog-fineprint{font-size:11px;color:var(--muted);margin-top:10px}.toast{position:fixed;bottom:28px;left:50%;transform:translate(-50%,15px);max-width:calc(100% - 32px);width:max-content;opacity:0;pointer-events:none;background:#183f4e;color:white;border:1px solid #ffffff20;border-radius:12px;padding:12px 20px;font-size:13px;box-shadow:0 8px 32px #18394725;transition:opacity .2s,transform .2s;z-index:30}.toast.visible{transform:translate(-50%,0);opacity:1}.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}.celebration{position:absolute;inset:0;pointer-events:none;z-index:8;overflow:hidden}.confetti{position:absolute;top:15%;width:7px;height:13px;border-radius:2px;opacity:0;animation:confetti 1.5s ease-out forwards}.goal-pulse .cup{animation:goal-pulse .85s ease-out}
+    @keyframes wave{0%,100%{transform:translateX(-5px) rotate(-2deg)}50%{transform:translateX(5px) rotate(2deg)}}@keyframes record-in{from{opacity:0;transform:translateY(-5px)}to{opacity:1;transform:translateY(0)}}@keyframes goal-pulse{50%{box-shadow:0 0 0 13px #8cdcf033}}@keyframes confetti{0%{opacity:0;transform:translateY(-20px) rotate(0)}15%{opacity:1}100%{opacity:0;transform:translate(var(--drift),370px) rotate(320deg)}}
+    @media(min-width:1000px){.progress-card{min-height:587px}.cup-scene{height:278px}.total{margin-bottom:22px}.progress-note{margin-top:23px}}
+    @media(max-width:800px){.shell{padding:0 24px}.intro{padding-top:30px}h1{font-size:28px}.dashboard{gap:18px;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr)}.progress-card{padding:22px 18px}.add-card{padding:22px 18px}.records-card{padding:21px 18px 0}.quick-buttons{gap:6px}.quick .quick-amount{font-size:16px}.quick{padding:13px 4px}.custom-row{gap:6px}.primary{padding:10px 13px}.cup-scene{height:249px}.today-date{font-size:11px;padding:9px 10px}.footer{gap:10px}}
+    @media(max-width:640px){.shell{padding:0 20px}.header-inner{min-height:82px;gap:8px}.brand{gap:9px}.brand-name{font-size:16px;letter-spacing:.5px}.brand-caption{font-size:8px;letter-spacing:2px}.brand-mark{width:35px;height:40px;border-radius:12px}.goal-chip{gap:7px;padding:7px 7px 7px 11px;border-radius:11px}.goal-chip-value{font-size:12px}.goal-chip-label{font-size:10px}.goal-chip button{width:30px;height:30px}.intro{display:block;padding:28px 0 20px}h1{font-size:28px}.intro p{font-size:12px}.eyebrow{font-size:10px;margin-bottom:7px}.today-date{margin:17px 0 0;display:inline-flex}.dashboard{grid-template-columns:minmax(0,1fr);gap:18px}.progress-card{padding:22px 24px}.cup-scene{height:237px}.cup{width:141px;height:191px;border-radius:7px 7px 31px 31px}.cup-scene:before{width:211px;height:211px}.cup-percent strong{font-size:32px}.cup-base{bottom:10px}.total{margin:3px 0 18px}.total strong{font-size:42px}.progress-note{margin-top:17px}.add-card{padding:23px 23px}.quick .quick-amount{font-size:20px}.quick-buttons{gap:10px}.quick{padding:15px 6px}.records-card{padding:23px 23px 0}.footer{display:block;padding:23px 0 26px}.footer-sign{margin-top:12px!important}.storage-banner{align-items:stretch;flex-direction:column;gap:10px}.storage-banner button{align-self:flex-start}.total strong{font-size:clamp(25px,9vw,42px)}.goal-chip-value{max-width:110px;overflow-wrap:anywhere}.toast{bottom:18px}}
+    @media(max-width:360px){.shell{padding:0 13px}.brand-name{font-size:14px}.brand-caption{letter-spacing:1px}.goal-chip{gap:4px;padding-left:7px}.goal-chip-value{max-width:80px}.add-card,.records-card{padding-left:18px;padding-right:18px}.custom-row .primary{padding:10px}.quick-buttons{gap:7px}.quick .quick-amount{font-size:18px}}
+    @media(prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;transition:none!important;scroll-behavior:auto!important}.confetti{display:none}}
+  </style>
+</head>
+<body>
+  <svg aria-hidden="true" width="0" height="0" style="position:absolute;overflow:hidden"><defs>
+    <symbol id="i-drop" viewBox="0 0 24 24"><path d="M12 2.5S5 10.1 5 14.4a7 7 0 0 0 14 0C19 10.1 12 2.5 12 2.5Z" fill="none" stroke="currentColor" stroke-width="1.6"/><path d="M8.5 14.5a3.5 3.5 0 0 0 3.5 3.6" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></symbol>
+    <symbol id="i-edit" viewBox="0 0 24 24"><path d="m14.5 5.5 4 4M4 20l4.5-1L20 7.5a2.8 2.8 0 0 0-4-4L4.5 15 4 20Z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></symbol>
+    <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
+    <symbol id="i-trash" viewBox="0 0 24 24"><path d="M4 6h16M9 6V3h6v3M6 6l1 15h10l1-15M10 10v7M14 10v7" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-lock" viewBox="0 0 24 24"><rect x="5" y="10" width="14" height="11" rx="2" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M8 10V6a4 4 0 0 1 8 0v4M12 14v3" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></symbol>
+    <symbol id="i-calendar" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="3" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M7 3v4M17 3v4M3 11h18M8 15h2M14 15h2" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></symbol>
+    <symbol id="i-cup" viewBox="0 0 24 24"><path d="M5 3h14l-1.3 16a2 2 0 0 1-2 2H8.3a2 2 0 0 1-2-2L5 3Z" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M6 12c4-3 8 3 12 0" fill="none" stroke="currentColor" stroke-width="1.5"/></symbol>
+  </defs></svg>
+  <header class="topbar"><div class="shell header-inner">
+    <div class="brand"><div class="brand-mark"><svg width="26" height="28" aria-hidden="true"><use href="#i-drop"/></svg></div><div><div class="brand-name">每日喝水紀錄</div><div class="brand-caption">A LITTLE WATER, EVERY DAY</div></div></div>
+    <div class="goal-chip"><div><div class="goal-chip-label">我的每日目標</div><div class="goal-chip-value" id="header-goal">尚未設定</div></div><button type="button" id="edit-goal" aria-label="設定或修改每日目標" title="修改每日目標"><svg width="16" height="16" aria-hidden="true"><use href="#i-edit"/></svg></button></div>
+  </div></header>
+  <main class="shell">
+    <div class="storage-banner" id="storage-banner" role="alert" hidden><span id="storage-message"></span><button type="button" id="recover-data" hidden>重新開始…</button></div>
+    <div class="intro"><div><div class="eyebrow">YOUR DAILY HYDRATION</div><h1>每一口，都算數。</h1><p>給自己一點喝水的時間，慢慢累積今天的進度。</p></div><div class="today-date"><svg width="15" height="15" aria-hidden="true"><use href="#i-calendar"/></svg><time id="today-date"></time></div></div>
+    <div class="dashboard">
+      <section class="card progress-card" aria-labelledby="progress-heading">
+        <div class="card-heading"><h2 id="progress-heading"><span class="section-index">01</span> 今日飲水進度</h2><span class="status" id="goal-status">尚未設定目標</span></div>
+        <div class="cup-scene" id="cup-scene" role="img" aria-label="尚未設定每日目標"><span class="cup-decor" aria-hidden="true">✦</span><span class="cup-decor second" aria-hidden="true">·</span><div class="cup-base"></div><div class="cup"><div class="cup-water" id="cup-water"></div><div class="cup-ticks" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div><div class="cup-percent"><strong id="percentage">—%</strong><span>今日完成</span></div></div></div>
+        <p class="total-label">今天已經喝了</p><div class="total"><strong id="total-amount">0</strong><span>mL</span></div>
+        <div class="metrics"><div class="metric"><div class="metric-label">每日目標</div><div class="metric-value"><span id="target-amount">—</span><small>mL</small></div></div><div class="metric"><div class="metric-label" id="remaining-label">距離目標還差</div><div class="metric-value"><span id="remaining-amount">—</span><small>mL</small></div></div></div>
+        <p class="progress-note" id="progress-note">先設定自己的目標，開始今天的紀錄。</p><div class="celebration" id="celebration" aria-hidden="true"></div>
+      </section>
+      <div class="right-column">
+        <section class="card add-card" aria-labelledby="add-heading">
+          <div class="card-heading"><h2 id="add-heading"><span class="section-index">02</span> 記下這一口</h2><svg width="20" height="20" style="color:#94bac9" aria-hidden="true"><use href="#i-plus"/></svg></div>
+          <p class="card-subtitle">剛喝完水嗎？點一下，為今天加點進度。</p>
+          <div class="quick-buttons"><button type="button" class="quick" data-amount="100" aria-label="新增 100 mL"><svg width="24" height="25" aria-hidden="true"><use href="#i-cup"/></svg><span class="quick-amount">＋100 <small>mL</small></span></button><button type="button" class="quick featured" data-amount="250" aria-label="新增 250 mL"><svg width="26" height="27" aria-hidden="true"><use href="#i-cup"/></svg><span class="quick-amount">＋250 <small>mL</small></span></button><button type="button" class="quick" data-amount="500" aria-label="新增 500 mL"><svg width="28" height="29" aria-hidden="true"><use href="#i-cup"/></svg><span class="quick-amount">＋500 <small>mL</small></span></button></div>
+          <form id="amount-form" novalidate><label class="custom-label" for="custom-amount">或是，輸入自己的份量</label><div class="custom-row"><div class="input-wrap"><input id="custom-amount" type="text" inputmode="numeric" autocomplete="off" placeholder="輸入飲水量" aria-describedby="amount-error"><span class="unit">mL</span></div><button type="submit" class="primary"><svg width="15" height="15" aria-hidden="true"><use href="#i-plus"/></svg>新增紀錄</button></div><p id="amount-error" class="error" role="alert"></p></form>
+          <p class="setup-hint" id="setup-hint">開始前，先<button type="button" class="text-button" id="setup-goal">設定每日目標</button>。</p>
+        </section>
+        <section class="card records-card" aria-labelledby="records-heading"><div class="card-heading"><h2 id="records-heading"><span class="section-index">03</span> 今日紀錄</h2><span class="count" id="record-count">0 筆</span></div><div id="empty-state" class="empty-state"><div class="empty-icon"><svg width="24" height="24" aria-hidden="true"><use href="#i-drop"/></svg></div><p>今天還沒有紀錄，喝水後記得新增喔</p><small>從第一口開始，就是好的開始。</small></div><ul class="records-list" id="records-list" aria-label="今日飲水紀錄"></ul><div class="record-footer"><svg width="12" height="12" aria-hidden="true"><use href="#i-lock"/></svg><span id="save-caption">紀錄儲存在這個瀏覽器，隨時回來接著記。</span></div></section>
+      </div>
+    </div>
+    <footer class="footer"><p class="footer-note">資料僅保存在同一裝置、瀏覽器及網站來源，不會跨裝置同步；清除網站資料後紀錄也會消失。每日依裝置本地日期重新計算，目標會保留。</p><p class="footer-sign">ONE SIP AT A TIME.</p></footer>
+    <noscript><p>請啟用瀏覽器的 JavaScript，才能設定目標與記錄飲水量。</p></noscript>
+  </main>
+  <dialog id="goal-dialog" aria-labelledby="goal-dialog-title"><form id="goal-form" novalidate><div class="dialog-icon"><svg width="25" height="25" aria-hidden="true"><use href="#i-drop"/></svg></div><h2 id="goal-dialog-title">設定自己的每日目標</h2><p>用你決定的目標，開始今天的喝水紀錄。之後隨時可以修改。</p><label for="goal-input">每日目標</label><div class="input-wrap"><input id="goal-input" type="text" inputmode="numeric" autocomplete="off" placeholder="例如 2000" aria-describedby="goal-error goal-help"><span class="unit">mL</span></div><p class="error" id="goal-error" role="alert"></p><div class="dialog-fineprint" id="goal-help">請自行設定適合的數量，網頁不推算建議飲水量。</div><div class="dialog-actions"><button type="button" class="secondary" id="cancel-goal">稍後再說</button><button type="submit" class="primary">儲存目標</button></div></form></dialog>
+  <dialog id="recovery-dialog" aria-labelledby="recovery-title"><h2 id="recovery-title">要重新開始嗎？</h2><p>目前儲存的資料無法讀取。確認後，將以本頁目前的目標與紀錄取代原資料；原資料將無法復原。取消則保留原資料，本頁仍可暫時操作。</p><div class="dialog-actions"><button type="button" class="secondary" id="cancel-recovery">保留原資料</button><button type="button" class="primary" id="confirm-recovery">確認重新開始</button></div></dialog>
+  <div class="toast" id="toast" role="status" aria-live="polite" aria-atomic="true"></div><div id="live-summary" class="sr-only" role="status" aria-live="polite" aria-atomic="true"></div>
+  <script>
+  (() => {
+    'use strict';
+    const STORAGE_KEY = 'daily-water-log.v1';
+    const $ = id => document.getElementById(id);
+    const format = n => n.toLocaleString('zh-TW');
+    const localDateKey = (date = new Date()) => `${date.getFullYear()}-${String(date.getMonth()+1).padStart(2,'0')}-${String(date.getDate()).padStart(2,'0')}`;
+    const freshData = () => ({schemaVersion:1, dailyGoalMl:null, records:[]});
+    let data = freshData(), dateKey = localDateKey(), storageState = 'ok', toastTimer, celebrationTimer, idCounter = 0;
+    let lastAnnouncedTotal = null;
+    const positiveInteger = value => {
+      const text = value.trim();
+      if (!/^\d+$/.test(text)) return null;
+      const n = Number(text);
+      return Number.isSafeInteger(n) && n > 0 ? n : null;
+    };
+    const validDateKey = key => {
+      if (typeof key !== 'string' || !/^\d{4}-\d{2}-\d{2}$/.test(key)) return false;
+      const [y,m,d] = key.split('-').map(Number), date = new Date(y,m-1,d,12);
+      return date.getFullYear() === y && date.getMonth() === m-1 && date.getDate() === d;
+    };
+    function validateData(value) {
+      if (!value || typeof value !== 'object' || value.schemaVersion !== 1 || !Array.isArray(value.records)) throw new Error('Invalid schema');
+      if (value.dailyGoalMl !== null && (!Number.isSafeInteger(value.dailyGoalMl) || value.dailyGoalMl <= 0)) throw new Error('Invalid goal');
+      const ids = new Set(), totals = new Map();
+      for (const record of value.records) {
+        if (!record || typeof record.id !== 'string' || !record.id || ids.has(record.id) || typeof record.createdAt !== 'string' || !Number.isFinite(Date.parse(record.createdAt)) || !validDateKey(record.dateKey) || !Number.isSafeInteger(record.amountMl) || record.amountMl <= 0) throw new Error('Invalid record');
+        ids.add(record.id);
+        const sum = (totals.get(record.dateKey) || 0) + record.amountMl;
+        if (!Number.isSafeInteger(sum)) throw new Error('Invalid total');
+        totals.set(record.dateKey,sum);
+      }
+      return {schemaVersion:1,dailyGoalMl:value.dailyGoalMl,records:value.records.map(r=>({id:r.id,createdAt:r.createdAt,dateKey:r.dateKey,amountMl:r.amountMl}))};
+    }
+    function updateStorageNotice() {
+      const corrupt = storageState === 'corrupt', failed = storageState === 'unavailable';
+      $('storage-banner').hidden = !corrupt && !failed;
+      $('recover-data').hidden = !corrupt;
+      $('storage-message').textContent = corrupt ? '資料讀取異常，原資料尚未被覆寫。本頁可暫時操作，確認重新開始後才會保存。' : '目前無法自動保存，離開頁面後紀錄可能遺失';
+      $('save-caption').textContent = corrupt ? '目前為暫存操作，原資料尚未被覆寫。' : failed ? '目前僅保留在本頁，尚未成功保存。' : '紀錄儲存在這個瀏覽器，隨時回來接著記。';
+    }
+    function load() {
+      let raw;
+      try { raw = localStorage.getItem(STORAGE_KEY); }
+      catch { storageState = 'unavailable'; updateStorageNotice(); return; }
+      if (raw !== null) {
+        try { data = validateData(JSON.parse(raw)); }
+        catch { storageState = 'corrupt'; }
+      }
+      updateStorageNotice();
+    }
+    function persist() {
+      if (storageState === 'corrupt') return false;
+      try { localStorage.setItem(STORAGE_KEY,JSON.stringify(data)); storageState = 'ok'; updateStorageNotice(); return true; }
+      catch { storageState = 'unavailable'; updateStorageNotice(); return false; }
+    }
+    const todayRecords = () => data.records.filter(r => r.dateKey === dateKey);
+    const totalToday = () => todayRecords().reduce((sum,r) => sum + r.amountMl,0);
+    function toast(message) {
+      clearTimeout(toastTimer); $('toast').textContent = message; $('toast').classList.add('visible');
+      toastTimer = setTimeout(() => $('toast').classList.remove('visible'),3800);
+    }
+    function stopCelebration() {
+      clearTimeout(celebrationTimer); $('celebration').replaceChildren(); $('cup-scene').classList.remove('goal-pulse');
+    }
+    function celebrate() {
+      stopCelebration(); $('cup-scene').classList.add('goal-pulse');
+      if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        const fragment = document.createDocumentFragment();
+        for(let i=0;i<22;i++) {
+          const piece=document.createElement('i'); piece.className='confetti'; piece.style.left=`${8+Math.random()*84}%`;
+          piece.style.background=['#65c8e4','#c1e7ef','#7bbda9','#efcf7a'][i%4]; piece.style.setProperty('--drift',`${Math.random()*130-65}px`); piece.style.animationDelay=`${Math.random()*.25}s`; fragment.append(piece);
+        }
+        $('celebration').append(fragment);
+      }
+      celebrationTimer=setTimeout(stopCelebration,2100);
+    }
+    function renderRecords(records) {
+      const fragment = document.createDocumentFragment();
+      // Reverse insertion order preserves newest-first order even within one millisecond.
+      for (const record of [...records].reverse()) {
+        const li=document.createElement('li'); li.className='record';
+        const icon=document.createElement('span'); icon.className='record-icon'; icon.innerHTML='<svg width="17" height="19" aria-hidden="true"><use href="#i-drop"/></svg>';
+        const detail=document.createElement('div'); detail.className='record-detail';
+        const amount=document.createElement('div'); amount.className='record-amount'; amount.textContent=`＋${format(record.amountMl)}`;
+        const unit=document.createElement('small'); unit.textContent='mL'; amount.append(unit);
+        const time=document.createElement('time'); time.dateTime=record.createdAt;
+        time.textContent=new Intl.DateTimeFormat('zh-TW',{hour:'2-digit',minute:'2-digit',second:'2-digit',hour12:false}).format(new Date(record.createdAt));
+        detail.append(amount,time);
+        const remove=document.createElement('button'); remove.type='button'; remove.className='delete-record'; remove.dataset.recordId=record.id;
+        remove.setAttribute('aria-label',`刪除 ${time.textContent} 的 ${format(record.amountMl)} mL 紀錄`); remove.title='刪除這筆紀錄';
+        remove.innerHTML='<svg width="16" height="16" aria-hidden="true"><use href="#i-trash"/></svg>';
+        remove.addEventListener('click',()=>deleteRecord(record.id)); li.append(icon,detail,remove); fragment.append(li);
+      }
+      $('records-list').replaceChildren(fragment); $('records-list').hidden=records.length===0;
+      $('empty-state').hidden=records.length>0; $('record-count').textContent=`${format(records.length)} 筆`;
+    }
+    function render() {
+      const records=todayRecords(), total=totalToday(), goal=data.dailyGoalMl, complete=goal!==null && total>=goal;
+      const percent=goal===null ? null : Math.round(total/goal*100);
+      $('today-date').dateTime=dateKey; $('today-date').textContent=new Intl.DateTimeFormat('zh-TW',{year:'numeric',month:'long',day:'numeric',weekday:'long'}).format(new Date());
+      $('header-goal').textContent=goal===null ? '尚未設定' : `${format(goal)} mL`;
+      $('total-amount').textContent=format(total); $('target-amount').textContent=goal===null?'—':format(goal);
+      $('remaining-amount').textContent=goal===null?'—':format(Math.max(goal-total,0));
+      $('remaining-label').textContent=complete?'已達標':'距離目標還差';
+      $('percentage').textContent=percent===null?'—%':`${format(percent)}%`;
+      $('cup-water').style.height=goal===null?'0%':`${Math.min(total/goal*100,100)}%`;
+      $('cup-scene').setAttribute('aria-label',goal===null?'尚未設定每日目標':`已喝 ${format(total)} mL，目標 ${format(goal)} mL，完成 ${format(percent)}%，${complete?'已達標':'尚未達標'}`);
+      $('goal-status').textContent=goal===null?'尚未設定目標':complete?'✓ 今日已達標':'慢慢累積中';
+      $('goal-status').classList.toggle('complete',complete); $('progress-note').classList.toggle('complete',complete);
+      $('progress-note').textContent=goal===null?'先設定自己的目標，開始今天的紀錄。':complete?'今天的目標完成了！每一口，都有好好記下。':total===0?'新的一天，從第一口水開始。':'一口一口，離今天的目標又近了一點。';
+      $('setup-hint').hidden=goal!==null; renderRecords(records);
+      if (lastAnnouncedTotal !== null && lastAnnouncedTotal!==total) $('live-summary').textContent=`今日已喝 ${format(total)} mL。${complete?'已達標。':goal===null?'':`剩餘 ${format(Math.max(goal-total,0))} mL。`}`;
+      lastAnnouncedTotal=total;
+    }
+    function checkDate() {
+      const next=localDateKey();
+      if(next===dateKey) return false;
+      dateKey=next; stopCelebration(); render(); toast('新的一天開始了，已切換至今天的紀錄。'); return true;
+    }
+    function openGoal() {
+      checkDate(); $('goal-input').value=data.dailyGoalMl===null?'':String(data.dailyGoalMl);
+      $('goal-error').textContent=''; $('goal-input').removeAttribute('aria-invalid');
+      $('goal-dialog-title').textContent=data.dailyGoalMl===null?'設定自己的每日目標':'修改每日目標';
+      $('cancel-goal').textContent=data.dailyGoalMl===null?'稍後再說':'取消';
+      if(!$('goal-dialog').open) $('goal-dialog').showModal(); $('goal-input').focus(); $('goal-input').select();
+    }
+    function inputError(inputId,errorId,message='請輸入大於 0 的整數') {
+      $(errorId).textContent=message; $(inputId).setAttribute('aria-invalid','true'); $(inputId).focus();
+    }
+    function addRecord(amount) {
+      checkDate();
+      if(data.dailyGoalMl===null){openGoal();return false;}
+      const before=totalToday();
+      if(!Number.isSafeInteger(before+amount)){inputError('custom-amount','amount-error','累積數值過大，請輸入較小的整數');return false;}
+      const now=new Date();
+      const id=globalThis.crypto && typeof globalThis.crypto.randomUUID==='function' ? globalThis.crypto.randomUUID() : `${now.getTime()}-${++idCounter}-${Math.random().toString(36).slice(2)}`;
+      data.records.push({id,createdAt:now.toISOString(),dateKey,amountMl:amount});
+      persist(); render(); $('records-list').scrollTop=0;
+      $('amount-error').textContent=''; $('custom-amount').removeAttribute('aria-invalid');
+      if(before<data.dailyGoalMl && before+amount>=data.dailyGoalMl){celebrate();toast('今日目標達成！已記下這一口水。');}
+      else toast(`已新增 ${format(amount)} mL`);
+      return true;
+    }
+    function deleteRecord(id) {
+      checkDate(); const record=data.records.find(r=>r.id===id && r.dateKey===dateKey); if(!record)return;
+      const buttons=[...$('records-list').querySelectorAll('button')], index=buttons.findIndex(b=>b.dataset.recordId===id);
+      data.records=data.records.filter(r=>r.id!==id); stopCelebration(); persist();render();toast(`已刪除 ${format(record.amountMl)} mL 的紀錄`);
+      const next=$('records-list').querySelectorAll('button'); (next[Math.min(index,next.length-1)] || document.querySelector('[data-amount="100"]')).focus({preventScroll:true});
+    }
+    $('edit-goal').addEventListener('click',openGoal); $('setup-goal').addEventListener('click',openGoal);
+    $('cancel-goal').addEventListener('click',()=>$('goal-dialog').close());
+    $('goal-form').addEventListener('submit',event=>{
+      event.preventDefault(); checkDate(); const goal=positiveInteger($('goal-input').value);
+      if(goal===null){inputError('goal-input','goal-error');return;}
+      data.dailyGoalMl=goal; stopCelebration(); persist();render();$('goal-dialog').close();toast('每日目標已更新，現有紀錄已保留。');
+    });
+    document.querySelectorAll('[data-amount]').forEach(button=>button.addEventListener('click',()=>addRecord(Number(button.dataset.amount))));
+    $('amount-form').addEventListener('submit',event=>{
+      event.preventDefault(); const amount=positiveInteger($('custom-amount').value);
+      if(amount===null){inputError('custom-amount','amount-error');return;}
+      if(addRecord(amount)){$('custom-amount').value='';$('custom-amount').focus();}
+    });
+    for(const [inputId,errorId] of [['goal-input','goal-error'],['custom-amount','amount-error']]) $(inputId).addEventListener('input',()=>{$(inputId).removeAttribute('aria-invalid');$(errorId).textContent='';});
+    $('recover-data').addEventListener('click',()=>$('recovery-dialog').showModal());
+    $('cancel-recovery').addEventListener('click',()=>$('recovery-dialog').close());
+    $('confirm-recovery').addEventListener('click',()=>{
+      storageState='ok';const saved=persist();$('recovery-dialog').close();toast(saved?'已重新開始，現在的目標與紀錄已保存。':'目前無法自動保存，離開頁面後紀錄可能遺失');
+      if(data.dailyGoalMl===null)openGoal();
+    });
+    document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible')checkDate();});
+    window.addEventListener('focus',checkDate); window.addEventListener('pageshow',checkDate); setInterval(checkDate,1000);
+    load();render();if(data.dailyGoalMl===null && storageState!=='corrupt')openGoal();
+  })();
+  </script>
+</body>
+</html>
